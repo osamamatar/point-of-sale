@@ -8,11 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace POS
+namespace POS.UI
 {
-    public partial class Form1 : Form
+    public partial class SplashSc : Form
     {
-        public Form1()
+        public SplashSc()
         {
             InitializeComponent();
         }

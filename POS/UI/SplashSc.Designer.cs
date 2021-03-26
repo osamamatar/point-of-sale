@@ -1,6 +1,6 @@
-﻿namespace POS
+﻿namespace POS.UI
 {
-    partial class Form1
+    partial class SplashSc
     {
         /// <summary>
         /// Required designer variable.
@@ -30,10 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Text = "Form1";
+            this.Text = "SplashSc";
         }
 
         #endregion
     }
 }
-
