@@ -16,5 +16,25 @@ namespace POS.UI
         {
             InitializeComponent();
         }
+
+        private void التقاريرToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void DashboardSc_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
