@@ -58,7 +58,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BAL\CustmerBal.cs" />
+    <Compile Include="BAL\ProductBal.cs" />
+    <Compile Include="BAL\UserBalImpl.cs" />
+    <Compile Include="BAL\VendorBal.cs" />
     <Compile Include="DAL\CustomerDal.cs" />
+    <Compile Include="DAL\ExpensDal.cs" />
+    <Compile Include="DAL\ProductDal.cs" />
+    <Compile Include="DAL\RolDal.cs" />
+    <Compile Include="DAL\UserDalImpl.cs" />
+    <Compile Include="DAL\VendorDal.cs" />
     <Compile Include="DB\Buying_Bill.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -116,8 +124,15 @@
     <Compile Include="DB\Vendor.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="DB\Vendor_Phone.cs">
-      <DependentUpon>Model.tt</DependentUpon>
+    <Compile Include="dto\ExpensDto.cs" />
+    <Compile Include="dto\ProductDto.cs" />
+    <Compile Include="dto\userDto.cs" />
+    <Compile Include="dto\VendorDto.cs" />
+    <Compile Include="UI\AboutDevSc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AboutDevSc.Designer.cs">
+      <DependentUpon>AboutDevSc.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\AddCustomerSc.cs">
       <SubType>Form</SubType>
@@ -131,11 +146,65 @@
     <Compile Include="UI\AddProductSc.Designer.cs">
       <DependentUpon>AddProductSc.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\AddUserSc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AddUserSc.Designer.cs">
+      <DependentUpon>AddUserSc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AddVendorSc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AddVendorSc.Designer.cs">
+      <DependentUpon>AddVendorSc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AllCustomerSc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AllCustomerSc.Designer.cs">
+      <DependentUpon>AllCustomerSc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AllProductsSc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AllProductsSc.Designer.cs">
+      <DependentUpon>AllProductsSc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AllUsersSc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AllUsersSc.Designer.cs">
+      <DependentUpon>AllUsersSc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AllVendorSc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AllVendorSc.Designer.cs">
+      <DependentUpon>AllVendorSc.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\DashboardSc.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\DashboardSc.Designer.cs">
       <DependentUpon>DashboardSc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DisplayCustomerAcount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\DisplayCustomerAcount.Designer.cs">
+      <DependentUpon>DisplayCustomerAcount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\DisplayVendorAcount.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\DisplayVendorAcount.Designer.cs">
+      <DependentUpon>DisplayVendorAcount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\ExpensesSc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\ExpensesSc.Designer.cs">
+      <DependentUpon>ExpensesSc.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\LoginSc.cs">
       <SubType>Form</SubType>
@@ -160,8 +229,41 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UI\AddCustomerSc.resx">
+      <DependentUpon>AddCustomerSc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AddProductSc.resx">
+      <DependentUpon>AddProductSc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AddUserSc.resx">
+      <DependentUpon>AddUserSc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AddVendorSc.resx">
+      <DependentUpon>AddVendorSc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AllCustomerSc.resx">
+      <DependentUpon>AllCustomerSc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AllProductsSc.resx">
+      <DependentUpon>AllProductsSc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AllUsersSc.resx">
+      <DependentUpon>AllUsersSc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AllVendorSc.resx">
+      <DependentUpon>AllVendorSc.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\DashboardSc.resx">
       <DependentUpon>DashboardSc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DisplayCustomerAcount.resx">
+      <DependentUpon>DisplayCustomerAcount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\DisplayVendorAcount.resx">
+      <DependentUpon>DisplayVendorAcount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ExpensesSc.resx">
+      <DependentUpon>ExpensesSc.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\LoginSc.resx">
       <DependentUpon>LoginSc.cs</DependentUpon>
@@ -174,6 +276,13 @@
       <DependentUpon>Model.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\POS.DB.Expens.datasource" />
+    <None Include="Properties\DataSources\POS.DB.User.datasource" />
+    <None Include="Properties\DataSources\POS.DB.Vendor.datasource" />
+    <None Include="Properties\DataSources\POS.DB.Vendor_Phone.datasource" />
+    <None Include="Properties\DataSources\POS.dto.ExpensDto.datasource" />
+    <None Include="Properties\DataSources\POS.dto.ProductDto.datasource" />
+    <None Include="Properties\DataSources\POS.dto.VendorDto.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -187,7 +296,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="DB\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

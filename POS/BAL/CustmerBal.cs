@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace POS.BAL
 {
-    interface CustmerBal
+    class CustmerBal
     {
+       
 
     }
 }

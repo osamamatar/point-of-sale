@@ -26,6 +26,7 @@ namespace POS.DB
         public Nullable<double> cust_balance { get; set; }
         public Nullable<int> cust_score { get; set; }
         public string cust_note { get; set; }
+        public string cust_phone { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Selling_Bill> Selling_Bill { get; set; }

@@ -18,7 +18,6 @@ namespace POS.DB
         public Vendor()
         {
             this.Buying_Bill = new HashSet<Buying_Bill>();
-            this.Vendor_Phone = new HashSet<Vendor_Phone>();
         }
     
         public int vend_id { get; set; }
@@ -26,10 +25,9 @@ namespace POS.DB
         public string vend_address { get; set; }
         public Nullable<double> vend_balance { get; set; }
         public string vend_note { get; set; }
+        public string vend_phone { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Buying_Bill> Buying_Bill { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Vendor_Phone> Vendor_Phone { get; set; }
     }
 }

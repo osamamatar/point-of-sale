@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Point_Of_SaleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Point_Of_SaleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Buying_Bill">
           <Key>
             <PropertyRef Name="bill_id" />
@@ -47,6 +47,7 @@
           <Property Name="cust_balance" Type="float" />
           <Property Name="cust_score" Type="int" />
           <Property Name="cust_note" Type="nvarchar" MaxLength="50" />
+          <Property Name="cust_phone" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Customer_Phone">
           <Key>
@@ -96,7 +97,7 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <Key>
             <PropertyRef Name="product_id" />
           </Key>
-          <Property Name="product_id" Type="int" Nullable="false" />
+          <Property Name="product_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="cat_id" Type="int" />
           <Property Name="product_name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="brand_name" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -153,19 +154,12 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <Key>
             <PropertyRef Name="vend_id" />
           </Key>
-          <Property Name="vend_id" Type="int" Nullable="false" />
+          <Property Name="vend_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="vend_name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="vend_address" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="vend_balance" Type="float" />
           <Property Name="vend_note" Type="nvarchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="Vendor_Phone">
-          <Key>
-            <PropertyRef Name="vend_id" />
-            <PropertyRef Name="vend_phone" />
-          </Key>
-          <Property Name="vend_id" Type="int" Nullable="false" />
-          <Property Name="vend_phone" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="vend_phone" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_Bill_Customer">
           <End Role="Customer" Type="Self.Customer" Multiplicity="1">
@@ -397,20 +391,6 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Vendor_Phone_Vendor">
-          <End Role="Vendor" Type="Self.Vendor" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Vendor_Phone" Type="Self.Vendor_Phone" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="vend_id" />
-            </Principal>
-            <Dependent Role="Vendor_Phone">
-              <PropertyRef Name="vend_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="Point_Of_SaleModelStoreContainer">
           <EntitySet Name="Buying_Bill" EntityType="Self.Buying_Bill" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Buying_Bill_Details" EntityType="Self.Buying_Bill_Details" Schema="dbo" store:Type="Tables" />
@@ -425,7 +405,6 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <EntitySet Name="Selling_Bill_Details" EntityType="Self.Selling_Bill_Details" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vendor" EntityType="Self.Vendor" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Vendor_Phone" EntityType="Self.Vendor_Phone" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Dead_Products" EntityType="Self.Dead_Products" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Dead_Products].[product_id] AS [product_id], 
@@ -504,13 +483,8 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
             <End Role="Users" EntitySet="Users" />
             <End Role="Dead_Products" EntitySet="Dead_Products" />
           </AssociationSet>
-          <AssociationSet Name="FK_Vendor_Phone_Vendor" Association="Self.FK_Vendor_Phone_Vendor">
-            <End Role="Vendor" EntitySet="Vendor" />
-            <End Role="Vendor_Phone" EntitySet="Vendor_Phone" />
-          </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Point_Of_SaleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -564,6 +538,7 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <Property Name="cust_note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Selling_Bill" Relationship="Self.FK_Bill_Customer" FromRole="Customer" ToRole="Selling_Bill" />
           <NavigationProperty Name="Customer_Phone" Relationship="Self.FK_Customer_Phone" FromRole="Customer" ToRole="Customer_Phone" />
+          <Property Name="cust_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Customer_Phone">
           <Key>
@@ -678,22 +653,13 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <Key>
             <PropertyRef Name="vend_id" />
           </Key>
-          <Property Name="vend_id" Type="Int32" Nullable="false" />
+          <Property Name="vend_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="vend_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="vend_address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="vend_balance" Type="Double" />
           <Property Name="vend_note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="vend_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Buying_Bill" Relationship="Self.FK_Buying_Bill_Vendor" FromRole="Vendor" ToRole="Buying_Bill" />
-          <NavigationProperty Name="Vendor_Phone" Relationship="Self.FK_Vendor_Phone_Vendor" FromRole="Vendor" ToRole="Vendor_Phone" />
-        </EntityType>
-        <EntityType Name="Vendor_Phone">
-          <Key>
-            <PropertyRef Name="vend_id" />
-            <PropertyRef Name="vend_phone" />
-          </Key>
-          <Property Name="vend_id" Type="Int32" Nullable="false" />
-          <Property Name="vend_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Vendor" Relationship="Self.FK_Vendor_Phone_Vendor" FromRole="Vendor_Phone" ToRole="Vendor" />
         </EntityType>
         <EntityType Name="Dead_Products">
           <Key>
@@ -940,21 +906,7 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Vendor_Phone_Vendor">
-          <End Role="Vendor" Type="Self.Vendor" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Vendor_Phone" Type="Self.Vendor_Phone" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Vendor">
-              <PropertyRef Name="vend_id" />
-            </Principal>
-            <Dependent Role="Vendor_Phone">
-              <PropertyRef Name="vend_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="Point_Of_SaleEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="Point_Of_SaleEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Buying_Bill" EntityType="Self.Buying_Bill" />
           <EntitySet Name="Buying_Bill_Details" EntityType="Self.Buying_Bill_Details" />
           <EntitySet Name="Categories" EntityType="Self.Category" />
@@ -968,7 +920,6 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <EntitySet Name="Selling_Bill_Details" EntityType="Self.Selling_Bill_Details" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <EntitySet Name="Vendors" EntityType="Self.Vendor" />
-          <EntitySet Name="Vendor_Phone" EntityType="Self.Vendor_Phone" />
           <EntitySet Name="Dead_Products" EntityType="Self.Dead_Products" />
           <AssociationSet Name="FK_Buying_Bill_Details_Buying_Bill" Association="Self.FK_Buying_Bill_Details_Buying_Bill">
             <End Role="Buying_Bill" EntitySet="Buying_Bill" />
@@ -1038,17 +989,13 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
             <End Role="Users" EntitySet="Users" />
             <End Role="Dead_Products" EntitySet="Dead_Products" />
           </AssociationSet>
-          <AssociationSet Name="FK_Vendor_Phone_Vendor" Association="Self.FK_Vendor_Phone_Vendor">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="Vendor_Phone" EntitySet="Vendor_Phone" />
-          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Point_Of_SaleModelStoreContainer" CdmEntityContainer="Point_Of_SaleEntities">
+        <EntityContainerMapping StorageEntityContainer="Point_Of_SaleModelStoreContainer" CdmEntityContainer="Point_Of_SaleEntities1">
           <EntitySetMapping Name="Buying_Bill">
             <EntityTypeMapping TypeName="Point_Of_SaleModel.Buying_Bill">
               <MappingFragment StoreEntitySet="Buying_Bill">
@@ -1086,6 +1033,7 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="Point_Of_SaleModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="cust_phone" ColumnName="cust_phone" />
                 <ScalarProperty Name="cust_id" ColumnName="cust_id" />
                 <ScalarProperty Name="cust_name" ColumnName="cust_name" />
                 <ScalarProperty Name="cust_address" ColumnName="cust_address" />
@@ -1197,13 +1145,6 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
                 <ScalarProperty Name="vend_address" ColumnName="vend_address" />
                 <ScalarProperty Name="vend_balance" ColumnName="vend_balance" />
                 <ScalarProperty Name="vend_note" ColumnName="vend_note" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Vendor_Phone">
-            <EntityTypeMapping TypeName="Point_Of_SaleModel.Vendor_Phone">
-              <MappingFragment StoreEntitySet="Vendor_Phone">
-                <ScalarProperty Name="vend_id" ColumnName="vend_id" />
                 <ScalarProperty Name="vend_phone" ColumnName="vend_phone" />
               </MappingFragment>
             </EntityTypeMapping>
