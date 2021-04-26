@@ -31,7 +31,7 @@ namespace POS.DAL
         // select list of all products
         public List<Product> getAllProducts()
         {
-            return db.Products.ToList();
+            return db.Products.OrderBy(a => a.product_name).ToList();
         }
 
         //delete product by id
@@ -68,9 +68,10 @@ namespace POS.DAL
                     prod.expire_date = pro.expire_date;
                     prod.product_cost = pro.product_cost;
                     prod.product_price = pro.product_price;
-                    pro.product_quantity = pro.product_quantity;
+                    prod.product_quantity = pro.product_quantity;
                     prod.end_user_price = pro.end_user_price;
                     prod.product_color = pro.product_color;
+                    prod.minQunt = pro.minQunt;
                     db.SaveChanges();
                     res = 1;
                 }
@@ -113,7 +114,8 @@ namespace POS.DAL
             List<Product> li = new List<Product>() ;
             try
             {
-             li=  db.Products.SqlQuery("select * from Product where product_name LIKE N'%" + s + "%'").ToList();
+             li=  db.Products.SqlQuery("select * from Product where product_name  LIKE N'%" + s + "%' or product_price LIKE '%" + s + "%' or brand_name  LIKE N'%" + s + "%'  ").ToList();
+                
                 if (li.Count == 0)
                 {
                     MessageBox.Show("من فضلك ادخل اسم المنتج بشكل صحيح");
@@ -129,6 +131,36 @@ namespace POS.DAL
 
 
             return li;
+        }
+        public int getProductIdByName(string na)
+        {
+            Product p = db.Products.First(a => a.product_name == na);
+            return p.product_id;
+        }
+        public string getProductNameById(int id)
+        {
+            try
+            {
+            Product p =   db.Products.Find(id);
+                return p.product_name;
+            }
+            catch
+            {
+                //MessageBox.Show("")
+                return null;
+            }
+        }
+        public Product getProductById(string n)
+        {
+            try
+            {
+                Product p = db.Products.First(a => a.product_name == n);
+                return p;
+            }catch
+            {
+                MessageBox.Show("خطأ في جلب بعض البيانات ");
+                return null;
+            }
         }
     }
 

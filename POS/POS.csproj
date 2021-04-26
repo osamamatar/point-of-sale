@@ -12,6 +12,21 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,7 +47,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Graphicloads-Medical-Health-Medicine-cart.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AxShockwaveFlashObjects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" />
+    <Reference Include="CrystalDecisions.CrystalReports.Engine, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.ReportSource, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Shared, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
+    <Reference Include="CrystalDecisions.Windows.Forms, Version=13.0.4000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304, processorArchitecture=MSIL" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -46,6 +69,8 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -57,14 +82,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BAL\CustmerBal.cs" />
+    <Compile Include="BAL\BuyingBillBal.cs" />
     <Compile Include="BAL\ProductBal.cs" />
+    <Compile Include="BAL\SillingBillBal.cs" />
     <Compile Include="BAL\UserBalImpl.cs" />
     <Compile Include="BAL\VendorBal.cs" />
+    <Compile Include="DAL\BuyingBillDal.cs" />
     <Compile Include="DAL\CustomerDal.cs" />
+    <Compile Include="DAL\DeadProdcutDal.cs" />
     <Compile Include="DAL\ExpensDal.cs" />
     <Compile Include="DAL\ProductDal.cs" />
     <Compile Include="DAL\RolDal.cs" />
+    <Compile Include="DAL\SillingBillDal.cs" />
     <Compile Include="DAL\UserDalImpl.cs" />
     <Compile Include="DAL\VendorDal.cs" />
     <Compile Include="DB\Buying_Bill.cs">
@@ -79,13 +108,28 @@
     <Compile Include="DB\Customer.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="DB\Customer_Phone.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="DB\Dead_Products.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DB\Expens.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\getBuyinglingBill_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\getCustPaying_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\getSellingBill_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\gettotalBuying_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\gettotals_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DB\getVendPaying_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="DB\Model.Context.cs">
@@ -124,15 +168,72 @@
     <Compile Include="DB\Vendor.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="dto\BuyingBillDto.cs" />
+    <Compile Include="dto\DeadProductDto.cs" />
     <Compile Include="dto\ExpensDto.cs" />
     <Compile Include="dto\ProductDto.cs" />
+    <Compile Include="dto\SillingBillDto.cs" />
     <Compile Include="dto\userDto.cs" />
     <Compile Include="dto\VendorDto.cs" />
+    <Compile Include="Reporting\allBuying.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>allBuying.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reporting\buying.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>buying.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reporting\custLateRpt.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>custLateRpt.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reporting\priceList.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>priceList.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reporting\printSc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reporting\printSc.Designer.cs">
+      <DependentUpon>printSc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Reporting\sellingAll.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>sellingAll.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reporting\sellingBill.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>sellingBill.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reporting\vendLateRep.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>vendLateRep.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UI\AboutDevSc.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\AboutDevSc.Designer.cs">
       <DependentUpon>AboutDevSc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AddBuyingBillSc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AddBuyingBillSc.Designer.cs">
+      <DependentUpon>AddBuyingBillSc.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\AddCustomerSc.cs">
       <SubType>Form</SubType>
@@ -140,11 +241,23 @@
     <Compile Include="UI\AddCustomerSc.Designer.cs">
       <DependentUpon>AddCustomerSc.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\AddDeadProduct.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AddDeadProduct.Designer.cs">
+      <DependentUpon>AddDeadProduct.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\AddProductSc.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\AddProductSc.Designer.cs">
       <DependentUpon>AddProductSc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AddSillingBillSc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AddSillingBillSc.Designer.cs">
+      <DependentUpon>AddSillingBillSc.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\AddUserSc.cs">
       <SubType>Form</SubType>
@@ -158,6 +271,12 @@
     <Compile Include="UI\AddVendorSc.Designer.cs">
       <DependentUpon>AddVendorSc.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\AllBuyingBillSc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AllBuyingBillSc.Designer.cs">
+      <DependentUpon>AllBuyingBillSc.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\AllCustomerSc.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -169,6 +288,12 @@
     </Compile>
     <Compile Include="UI\AllProductsSc.Designer.cs">
       <DependentUpon>AllProductsSc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AllSillingBillSc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AllSillingBillSc.Designer.cs">
+      <DependentUpon>AllSillingBillSc.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\AllUsersSc.cs">
       <SubType>Form</SubType>
@@ -182,11 +307,23 @@
     <Compile Include="UI\AllVendorSc.Designer.cs">
       <DependentUpon>AllVendorSc.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\CutomerLateSc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\CutomerLateSc.Designer.cs">
+      <DependentUpon>CutomerLateSc.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\DashboardSc.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="UI\DashboardSc.Designer.cs">
       <DependentUpon>DashboardSc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\AllDeadProductSc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\AllDeadProductSc.Designer.cs">
+      <DependentUpon>AllDeadProductSc.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\DisplayCustomerAcount.cs">
       <SubType>Form</SubType>
@@ -214,12 +351,35 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UI\SplashSc.cs">
+    <Compile Include="UI\PaingMotionSc.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\SplashSc.Designer.cs">
-      <DependentUpon>SplashSc.cs</DependentUpon>
+    <Compile Include="UI\PaingMotionSc.Designer.cs">
+      <DependentUpon>PaingMotionSc.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\splashSc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\splashSc.Designer.cs">
+      <DependentUpon>splashSc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\totalsSc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\totalsSc.Designer.cs">
+      <DependentUpon>totalsSc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UI\VendorLateSc.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\VendorLateSc.Designer.cs">
+      <DependentUpon>VendorLateSc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Util\bill.cs" />
+    <Compile Include="Util\BuyingBillDetails.cs" />
+    <Compile Include="Util\MySession.cs" />
+    <Compile Include="Util\SillBillDetails.cs" />
+    <Compile Include="Util\BillInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -228,12 +388,53 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Reporting\allBuying.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>allBuying.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reporting\buying.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>buying.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reporting\custLateRpt.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>custLateRpt.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reporting\priceList.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>priceList.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reporting\printSc.resx">
+      <DependentUpon>printSc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reporting\sellingAll.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>sellingAll.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reporting\sellingBill.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>sellingBill.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reporting\vendLateRep.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>vendLateRep.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AddBuyingBillSc.resx">
+      <DependentUpon>AddBuyingBillSc.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\AddCustomerSc.resx">
       <DependentUpon>AddCustomerSc.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\AddDeadProduct.resx">
+      <DependentUpon>AddDeadProduct.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\AddProductSc.resx">
       <DependentUpon>AddProductSc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AddSillingBillSc.resx">
+      <DependentUpon>AddSillingBillSc.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\AddUserSc.resx">
       <DependentUpon>AddUserSc.cs</DependentUpon>
@@ -241,11 +442,17 @@
     <EmbeddedResource Include="UI\AddVendorSc.resx">
       <DependentUpon>AddVendorSc.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\AllBuyingBillSc.resx">
+      <DependentUpon>AllBuyingBillSc.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\AllCustomerSc.resx">
       <DependentUpon>AllCustomerSc.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\AllProductsSc.resx">
       <DependentUpon>AllProductsSc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AllSillingBillSc.resx">
+      <DependentUpon>AllSillingBillSc.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\AllUsersSc.resx">
       <DependentUpon>AllUsersSc.cs</DependentUpon>
@@ -253,8 +460,14 @@
     <EmbeddedResource Include="UI\AllVendorSc.resx">
       <DependentUpon>AllVendorSc.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\CutomerLateSc.resx">
+      <DependentUpon>CutomerLateSc.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\DashboardSc.resx">
       <DependentUpon>DashboardSc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\AllDeadProductSc.resx">
+      <DependentUpon>AllDeadProductSc.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UI\DisplayCustomerAcount.resx">
       <DependentUpon>DisplayCustomerAcount.cs</DependentUpon>
@@ -268,6 +481,18 @@
     <EmbeddedResource Include="UI\LoginSc.resx">
       <DependentUpon>LoginSc.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UI\PaingMotionSc.resx">
+      <DependentUpon>PaingMotionSc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\splashSc.resx">
+      <DependentUpon>splashSc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\totalsSc.resx">
+      <DependentUpon>totalsSc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\VendorLateSc.resx">
+      <DependentUpon>VendorLateSc.cs</DependentUpon>
+    </EmbeddedResource>
     <EntityDeploy Include="DB\Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Model.Designer.cs</LastGenOutput>
@@ -276,13 +501,19 @@
       <DependentUpon>Model.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\POS.DB.Customer.datasource" />
     <None Include="Properties\DataSources\POS.DB.Expens.datasource" />
+    <None Include="Properties\DataSources\POS.DB.getCustPaying_Result.datasource" />
+    <None Include="Properties\DataSources\POS.DB.getVendPaying_Result.datasource" />
     <None Include="Properties\DataSources\POS.DB.User.datasource" />
     <None Include="Properties\DataSources\POS.DB.Vendor.datasource" />
     <None Include="Properties\DataSources\POS.DB.Vendor_Phone.datasource" />
+    <None Include="Properties\DataSources\POS.dto.DeadProductDto.datasource" />
     <None Include="Properties\DataSources\POS.dto.ExpensDto.datasource" />
     <None Include="Properties\DataSources\POS.dto.ProductDto.datasource" />
     <None Include="Properties\DataSources\POS.dto.VendorDto.datasource" />
+    <None Include="Properties\DataSources\POS.Util.bill.datasource" />
+    <None Include="Properties\DataSources\POS.Util.SillBillDetails.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -294,7 +525,36 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Util\Screenshot 2021-04-03 191230.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="SAP.CrystalReports14.NET.2.0">
+      <Visible>False</Visible>
+      <ProductName>SAP Crystal Reports Runtime Engine for .NET Framework</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
     <Content Include="DB\Model.Context.tt">
@@ -307,9 +567,7 @@
       <DependentUpon>Model.edmx</DependentUpon>
       <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Content Include="Graphicloads-Medical-Health-Medicine-cart.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,38 +4,36 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a28e2ce6663946008c046c074b03d4d4" Name="Diagram1">
-        <EntityTypeShape EntityType="Point_Of_SaleModel.Buying_Bill" Width="1.5" PointX="5.25" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="Point_Of_SaleModel.Buying_Bill_Details" Width="1.5" PointX="10.5" PointY="10.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Point_Of_SaleModel.Category" Width="1.5" PointX="3" PointY="17.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Point_Of_SaleModel.Customer" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="Point_Of_SaleModel.Customer_Phone" Width="1.5" PointX="5.25" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Point_Of_SaleModel.Expens" Width="1.5" PointX="5.25" PointY="13.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="Point_Of_SaleModel.Paying_Motion" Width="1.5" PointX="8.25" PointY="9.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="Point_Of_SaleModel.Product" Width="1.5" PointX="5.25" PointY="16.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Point_Of_SaleModel.Role" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Point_Of_SaleModel.Selling_Bill" Width="1.5" PointX="5.25" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="Point_Of_SaleModel.Selling_Bill_Details" Width="1.5" PointX="7.5" PointY="4.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Point_Of_SaleModel.User" Width="1.5" PointX="3" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="Point_Of_SaleModel.Vendor" Width="1.5" PointX="3" PointY="13.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="Point_Of_SaleModel.Dead_Products" Width="1.5" PointX="10.5" PointY="6.5" IsExpanded="true" />
+      <Diagram DiagramId="22f8312459e945128df4b497107c215e" Name="Diagram1">
+        <EntityTypeShape EntityType="Point_Of_SaleModel.Buying_Bill" Width="1.5" PointX="5.25" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="Point_Of_SaleModel.Buying_Bill_Details" Width="1.5" PointX="10.5" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="Point_Of_SaleModel.Category" Width="1.5" PointX="6" PointY="22" IsExpanded="true" />
+        <EntityTypeShape EntityType="Point_Of_SaleModel.Customer" Width="1.5" PointX="6" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Point_Of_SaleModel.Dead_Products" Width="1.5" PointX="8.25" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Point_Of_SaleModel.Expens" Width="1.5" PointX="5.25" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Point_Of_SaleModel.Paying_Motion" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Point_Of_SaleModel.Product" Width="1.5" PointX="8.25" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Point_Of_SaleModel.Role" Width="1.5" PointX="0.75" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="Point_Of_SaleModel.Selling_Bill" Width="1.5" PointX="8.25" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="Point_Of_SaleModel.Selling_Bill_Details" Width="1.5" PointX="10.5" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Point_Of_SaleModel.User" Width="1.5" PointX="3" PointY="9.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="Point_Of_SaleModel.Vendor" Width="1.5" PointX="3" PointY="5.625" IsExpanded="true" />
         <AssociationConnector Association="Point_Of_SaleModel.FK_Buying_Bill_Details_Buying_Bill" ManuallyRouted="false" />
         <AssociationConnector Association="Point_Of_SaleModel.FK_Buying_Bill_Vendor" ManuallyRouted="false" />
         <AssociationConnector Association="Point_Of_SaleModel.FK_user_id2_" ManuallyRouted="false" />
         <AssociationConnector Association="Point_Of_SaleModel.FK_Buying_Bill_Details_Product1" ManuallyRouted="false" />
         <AssociationConnector Association="Point_Of_SaleModel.FK_cat_id" ManuallyRouted="false" />
         <AssociationConnector Association="Point_Of_SaleModel.FK_Bill_Customer" ManuallyRouted="false" />
-        <AssociationConnector Association="Point_Of_SaleModel.FK_Customer_Phone" ManuallyRouted="false" />
+        <AssociationConnector Association="Point_Of_SaleModel.FK_Dead_Products_Selling_Bill" ManuallyRouted="false" />
+        <AssociationConnector Association="Point_Of_SaleModel.FK_product_id" ManuallyRouted="false" />
+        <AssociationConnector Association="Point_Of_SaleModel.FK_user_id4" ManuallyRouted="false" />
         <AssociationConnector Association="Point_Of_SaleModel.FK_user_id" ManuallyRouted="false" />
         <AssociationConnector Association="Point_Of_SaleModel.FK_Paying_Motion_Selling_Bill" ManuallyRouted="false" />
         <AssociationConnector Association="Point_Of_SaleModel.FK_user_id_" ManuallyRouted="false" />
         <AssociationConnector Association="Point_Of_SaleModel.FK_Bill_Details_Product" ManuallyRouted="false" />
-        <AssociationConnector Association="Point_Of_SaleModel.FK_product_id" ManuallyRouted="false" />
         <AssociationConnector Association="Point_Of_SaleModel.FK_role" ManuallyRouted="false" />
-        <AssociationConnector Association="Point_Of_SaleModel.FK_Dead_Products_Selling_Bill" ManuallyRouted="false" />
         <AssociationConnector Association="Point_Of_SaleModel.FK_Selling_Bill_Details_Bill" ManuallyRouted="false" />
         <AssociationConnector Association="Point_Of_SaleModel.FK_user_id1_" ManuallyRouted="false" />
-        <AssociationConnector Association="Point_Of_SaleModel.FK_user_id4" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

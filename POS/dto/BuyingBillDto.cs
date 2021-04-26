@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace POS.BAL
+namespace POS.dto
 {
-    class CustmerBal
+    class BuyingBillDto
     {
-       
-
     }
 }

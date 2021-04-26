@@ -16,7 +16,8 @@ namespace POS.DAL
         {
             try
             {
-               // db.Vendors.
+                // db.Vendors.
+                v.vend_balance = 0;
                 db.Vendors.Add(v);
                 db.SaveChanges();
                 
@@ -77,10 +78,15 @@ namespace POS.DAL
                 result.vend_address = ven.ven_address;
                 result.vend_note = ven.ven_note;
                 result.vend_phone = ven.ven_phone;
+                result.vend_balance = ven.ven_balance;
                 
                 db.SaveChanges();
             }
         }
-
+        public int getVendorIdByName(string na)
+        {
+            Vendor v = db.Vendors.First(a => a.vend_name == na);
+            return v.vend_id;
+        }
     }
 }

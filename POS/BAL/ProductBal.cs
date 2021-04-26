@@ -29,7 +29,9 @@ namespace POS.BAL
             prod.end_user_price = pd.end_price;
             prod.product_price = pd.price;
             prod.product_quantity = pd.quantity;
-        
+            prod.minQunt = pd.minQunt;
+
+
             int res =  p.createProduct(prod);
 
             return res;
@@ -53,7 +55,7 @@ namespace POS.BAL
                 pd.end_price =(float) prod.end_user_price;
                 pd.price = (float)prod.product_price;
                 pd.quantity = prod.product_quantity;
-
+                pd.minQunt =(int)prod.minQunt;
                 li.Add(pd);
             }
 
@@ -81,7 +83,8 @@ namespace POS.BAL
             prod.end_user_price = pd.end_price;
             prod.product_price = pd.price;
             prod.product_quantity = pd.quantity;
-         return   p.updateProduct(prod);
+            prod.minQunt = pd.minQunt;
+            return   p.updateProduct(prod);
         }
 
         //selected searched list
@@ -102,11 +105,26 @@ namespace POS.BAL
                 pd.end_price = (float)prod.end_user_price;
                 pd.price = (float)prod.product_price;
                 pd.quantity = prod.product_quantity;
-
+                pd.minQunt = (int)prod.minQunt;
                 li.Add(pd);
             }
 
             return li;
+        }
+      public  List<string> getNotifyProducts()
+        {
+        List<ProductDto> lp = this.getListOfProducts();
+            List<string> li = new List<string>();
+            foreach (var i in lp)
+            {
+                if (i.quantity <= i.minQunt)
+                {
+                    li.Add(i.name);
+                }
+            }
+
+            return li;
+
         }
 
     }

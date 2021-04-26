@@ -57,6 +57,7 @@ namespace POS.UI
             jobVal.DataSource = new DAL.RolDal().getAllRoll();
             jobVal.DisplayMember = "role_description";
             jobVal.ValueMember = "role_id";
+            
 
 
         }

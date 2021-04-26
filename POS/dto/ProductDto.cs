@@ -18,6 +18,6 @@ namespace POS.dto
         public float price { get; set; }
         public DateTime expire_date { get; set; }
         public float end_price { get; set; }
-
+        public int minQunt { get; set; }
     }
 }

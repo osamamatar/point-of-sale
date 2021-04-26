@@ -18,7 +18,6 @@ namespace POS.DB
         public int product_id { get; set; }
         public int product_quantity { get; set; }
         public double product_price { get; set; }
-        public Nullable<double> product_other_cost { get; set; }
     
         public virtual Buying_Bill Buying_Bill { get; set; }
         public virtual Product Product { get; set; }

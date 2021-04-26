@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Point_Of_SaleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Point_Of_SaleModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Buying_Bill">
           <Key>
             <PropertyRef Name="bill_id" />
@@ -15,9 +15,9 @@
           <Property Name="bill_paid" Type="float" Nullable="false" />
           <Property Name="bill_discount" Type="float" Nullable="false" />
           <Property Name="bill_other_costs" Type="float" Nullable="false" />
-          <Property Name="bill_paying_type" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="bill_notes" Type="nvarchar" MaxLength="100" />
           <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="total" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="Buying_Bill_Details">
           <Key>
@@ -28,7 +28,6 @@
           <Property Name="product_id" Type="int" Nullable="false" />
           <Property Name="product_quantity" Type="int" Nullable="false" />
           <Property Name="product_price" Type="float" Nullable="false" />
-          <Property Name="product_other_cost" Type="float" />
         </EntityType>
         <EntityType Name="Category">
           <Key>
@@ -41,7 +40,7 @@
           <Key>
             <PropertyRef Name="cust_id" />
           </Key>
-          <Property Name="cust_id" Type="int" Nullable="false" />
+          <Property Name="cust_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="cust_name" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="cust_address" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="cust_balance" Type="float" />
@@ -49,19 +48,9 @@
           <Property Name="cust_note" Type="nvarchar" MaxLength="50" />
           <Property Name="cust_phone" Type="nvarchar" MaxLength="50" />
         </EntityType>
-        <EntityType Name="Customer_Phone">
-          <Key>
-            <PropertyRef Name="cust_id" />
-          </Key>
-          <Property Name="cust_id" Type="int" Nullable="false" />
-          <Property Name="cust_phone" Type="nvarchar" MaxLength="50" Nullable="false" />
-        </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Dead_Products">
           <Key>
-            <PropertyRef Name="product_id" />
-            <PropertyRef Name="process_date" />
+            <PropertyRef Name="id" />
           </Key>
           <Property Name="product_id" Type="int" Nullable="false" />
           <Property Name="process_date" Type="datetime" Nullable="false" />
@@ -69,6 +58,7 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <Property Name="note" Type="nvarchar" MaxLength="50" />
           <Property Name="quantity" Type="int" />
           <Property Name="bill_id" Type="int" />
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="Expenses">
           <Key>
@@ -107,6 +97,7 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <Property Name="product_price" Type="float" Nullable="false" />
           <Property Name="expire_date" Type="date" />
           <Property Name="end_user_price" Type="float" />
+          <Property Name="minQunt" Type="int" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -119,15 +110,15 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <Key>
             <PropertyRef Name="bill_id" />
           </Key>
-          <Property Name="bill_id" Type="int" Nullable="false" />
+          <Property Name="bill_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="cust_id" Type="int" Nullable="false" />
           <Property Name="bill_date" Type="datetime" Nullable="false" />
           <Property Name="bill_paid" Type="float" Nullable="false" />
           <Property Name="bill_discount" Type="float" Nullable="false" />
           <Property Name="bill_other_costs" Type="float" Nullable="false" />
-          <Property Name="bill_paying_type" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="bill_notes" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="bill_notes" Type="nvarchar" MaxLength="50" />
           <Property Name="user_id" Type="int" Nullable="false" />
+          <Property Name="total" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="Selling_Bill_Details">
           <Key>
@@ -238,20 +229,6 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
             </Principal>
             <Dependent Role="Product">
               <PropertyRef Name="cat_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Customer_Phone">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Customer_Phone" Type="Self.Customer_Phone" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="cust_id" />
-            </Principal>
-            <Dependent Role="Customer_Phone">
-              <PropertyRef Name="cust_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -391,12 +368,32 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="getBuyinglingBill" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="bill_Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="getCustPaying" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="getSellingBill" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="bill_Id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="gettotalBuying" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="t1" Type="date" Mode="In" />
+          <Parameter Name="t2" Type="date" Mode="In" />
+        </Function>
+        <Function Name="gettotalexpens" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="t1" Type="date" Mode="In" />
+          <Parameter Name="t2" Type="date" Mode="In" />
+        </Function>
+        <Function Name="gettotals" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="t1" Type="date" Mode="In" />
+          <Parameter Name="t2" Type="date" Mode="In" />
+        </Function>
+        <Function Name="getVendPaying" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="Point_Of_SaleModelStoreContainer">
           <EntitySet Name="Buying_Bill" EntityType="Self.Buying_Bill" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Buying_Bill_Details" EntityType="Self.Buying_Bill_Details" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Customer_Phone" EntityType="Self.Customer_Phone" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Dead_Products" EntityType="Self.Dead_Products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Expenses" EntityType="Self.Expenses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Paying_Motion" EntityType="Self.Paying_Motion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
@@ -405,16 +402,6 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <EntitySet Name="Selling_Bill_Details" EntityType="Self.Selling_Bill_Details" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vendor" EntityType="Self.Vendor" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Dead_Products" EntityType="Self.Dead_Products" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Dead_Products].[product_id] AS [product_id], 
-    [Dead_Products].[process_date] AS [process_date], 
-    [Dead_Products].[user_id] AS [user_id], 
-    [Dead_Products].[note] AS [note], 
-    [Dead_Products].[quantity] AS [quantity], 
-    [Dead_Products].[bill_id] AS [bill_id]
-    FROM [dbo].[Dead_Products] AS [Dead_Products]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_Bill_Customer" Association="Self.FK_Bill_Customer">
             <End Role="Customer" EntitySet="Customer" />
             <End Role="Selling_Bill" EntitySet="Selling_Bill" />
@@ -438,10 +425,6 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <AssociationSet Name="FK_cat_id" Association="Self.FK_cat_id">
             <End Role="Category" EntitySet="Category" />
             <End Role="Product" EntitySet="Product" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Customer_Phone" Association="Self.FK_Customer_Phone">
-            <End Role="Customer" EntitySet="Customer" />
-            <End Role="Customer_Phone" EntitySet="Customer_Phone" />
           </AssociationSet>
           <AssociationSet Name="FK_Dead_Products_Selling_Bill" Association="Self.FK_Dead_Products_Selling_Bill">
             <End Role="Selling_Bill" EntitySet="Selling_Bill" />
@@ -484,7 +467,8 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
             <End Role="Dead_Products" EntitySet="Dead_Products" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Point_Of_SaleModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -498,9 +482,9 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <Property Name="bill_paid" Type="Double" Nullable="false" />
           <Property Name="bill_discount" Type="Double" Nullable="false" />
           <Property Name="bill_other_costs" Type="Double" Nullable="false" />
-          <Property Name="bill_paying_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="bill_notes" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="total" Type="Double" Nullable="false" />
           <NavigationProperty Name="Buying_Bill_Details" Relationship="Self.FK_Buying_Bill_Details_Buying_Bill" FromRole="Buying_Bill" ToRole="Buying_Bill_Details" />
           <NavigationProperty Name="Vendor" Relationship="Self.FK_Buying_Bill_Vendor" FromRole="Buying_Bill" ToRole="Vendor" />
           <NavigationProperty Name="User" Relationship="Self.FK_user_id2_" FromRole="Buying_Bill" ToRole="Users" />
@@ -514,7 +498,6 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <Property Name="product_id" Type="Int32" Nullable="false" />
           <Property Name="product_quantity" Type="Int32" Nullable="false" />
           <Property Name="product_price" Type="Double" Nullable="false" />
-          <Property Name="product_other_cost" Type="Double" />
           <NavigationProperty Name="Buying_Bill" Relationship="Self.FK_Buying_Bill_Details_Buying_Bill" FromRole="Buying_Bill_Details" ToRole="Buying_Bill" />
           <NavigationProperty Name="Product" Relationship="Self.FK_Buying_Bill_Details_Product1" FromRole="Buying_Bill_Details" ToRole="Product" />
         </EntityType>
@@ -530,23 +513,29 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <Key>
             <PropertyRef Name="cust_id" />
           </Key>
-          <Property Name="cust_id" Type="Int32" Nullable="false" />
+          <Property Name="cust_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="cust_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="cust_address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="cust_balance" Type="Double" />
           <Property Name="cust_score" Type="Int32" />
           <Property Name="cust_note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Selling_Bill" Relationship="Self.FK_Bill_Customer" FromRole="Customer" ToRole="Selling_Bill" />
-          <NavigationProperty Name="Customer_Phone" Relationship="Self.FK_Customer_Phone" FromRole="Customer" ToRole="Customer_Phone" />
           <Property Name="cust_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Selling_Bill" Relationship="Self.FK_Bill_Customer" FromRole="Customer" ToRole="Selling_Bill" />
         </EntityType>
-        <EntityType Name="Customer_Phone">
+        <EntityType Name="Dead_Products">
           <Key>
-            <PropertyRef Name="cust_id" />
+            <PropertyRef Name="id" />
           </Key>
-          <Property Name="cust_id" Type="Int32" Nullable="false" />
-          <Property Name="cust_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Customer" Relationship="Self.FK_Customer_Phone" FromRole="Customer_Phone" ToRole="Customer" />
+          <Property Name="product_id" Type="Int32" Nullable="false" />
+          <Property Name="process_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="bill_id" Type="Int32" />
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Selling_Bill" Relationship="Self.FK_Dead_Products_Selling_Bill" FromRole="Dead_Products" ToRole="Selling_Bill" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_product_id" FromRole="Dead_Products" ToRole="Product" />
+          <NavigationProperty Name="User" Relationship="Self.FK_user_id4" FromRole="Dead_Products" ToRole="Users" />
         </EntityType>
         <EntityType Name="Expens">
           <Key>
@@ -578,7 +567,7 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <Key>
             <PropertyRef Name="product_id" />
           </Key>
-          <Property Name="product_id" Type="Int32" Nullable="false" />
+          <Property Name="product_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="cat_id" Type="Int32" />
           <Property Name="product_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="brand_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
@@ -588,10 +577,11 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <Property Name="product_price" Type="Double" Nullable="false" />
           <Property Name="expire_date" Type="DateTime" Precision="0" />
           <Property Name="end_user_price" Type="Double" />
+          <Property Name="minQunt" Type="Int32" />
           <NavigationProperty Name="Buying_Bill_Details" Relationship="Self.FK_Buying_Bill_Details_Product1" FromRole="Product" ToRole="Buying_Bill_Details" />
           <NavigationProperty Name="Category" Relationship="Self.FK_cat_id" FromRole="Product" ToRole="Category" />
-          <NavigationProperty Name="Selling_Bill_Details" Relationship="Self.FK_Bill_Details_Product" FromRole="Product" ToRole="Selling_Bill_Details" />
           <NavigationProperty Name="Dead_Products" Relationship="Self.FK_product_id" FromRole="Product" ToRole="Dead_Products" />
+          <NavigationProperty Name="Selling_Bill_Details" Relationship="Self.FK_Bill_Details_Product" FromRole="Product" ToRole="Selling_Bill_Details" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -605,18 +595,18 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <Key>
             <PropertyRef Name="bill_id" />
           </Key>
-          <Property Name="bill_id" Type="Int32" Nullable="false" />
+          <Property Name="bill_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="cust_id" Type="Int32" Nullable="false" />
           <Property Name="bill_date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="bill_paid" Type="Double" Nullable="false" />
           <Property Name="bill_discount" Type="Double" Nullable="false" />
           <Property Name="bill_other_costs" Type="Double" Nullable="false" />
-          <Property Name="bill_paying_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="bill_notes" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="bill_notes" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="user_id" Type="Int32" Nullable="false" />
+          <Property Name="total" Type="Double" Nullable="false" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_Bill_Customer" FromRole="Selling_Bill" ToRole="Customer" />
-          <NavigationProperty Name="Paying_Motion" Relationship="Self.FK_Paying_Motion_Selling_Bill" FromRole="Selling_Bill" ToRole="Paying_Motion" />
           <NavigationProperty Name="Dead_Products" Relationship="Self.FK_Dead_Products_Selling_Bill" FromRole="Selling_Bill" ToRole="Dead_Products" />
+          <NavigationProperty Name="Paying_Motion" Relationship="Self.FK_Paying_Motion_Selling_Bill" FromRole="Selling_Bill" ToRole="Paying_Motion" />
           <NavigationProperty Name="Selling_Bill_Details" Relationship="Self.FK_Selling_Bill_Details_Bill" FromRole="Selling_Bill" ToRole="Selling_Bill_Details" />
           <NavigationProperty Name="User" Relationship="Self.FK_user_id1_" FromRole="Selling_Bill" ToRole="Users" />
         </EntityType>
@@ -643,11 +633,11 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <Property Name="user_pass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="role_id" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Buying_Bill" Relationship="Self.FK_user_id2_" FromRole="Users" ToRole="Buying_Bill" />
+          <NavigationProperty Name="Dead_Products" Relationship="Self.FK_user_id4" FromRole="Users" ToRole="Dead_Products" />
           <NavigationProperty Name="Expenses" Relationship="Self.FK_user_id" FromRole="Users" ToRole="Expenses" />
           <NavigationProperty Name="Paying_Motion" Relationship="Self.FK_user_id_" FromRole="Users" ToRole="Paying_Motion" />
           <NavigationProperty Name="Role" Relationship="Self.FK_role" FromRole="Users" ToRole="Roles" />
           <NavigationProperty Name="Selling_Bill" Relationship="Self.FK_user_id1_" FromRole="Users" ToRole="Selling_Bill" />
-          <NavigationProperty Name="Dead_Products" Relationship="Self.FK_user_id4" FromRole="Users" ToRole="Dead_Products" />
         </EntityType>
         <EntityType Name="Vendor">
           <Key>
@@ -660,21 +650,6 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <Property Name="vend_note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="vend_phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Buying_Bill" Relationship="Self.FK_Buying_Bill_Vendor" FromRole="Vendor" ToRole="Buying_Bill" />
-        </EntityType>
-        <EntityType Name="Dead_Products">
-          <Key>
-            <PropertyRef Name="product_id" />
-            <PropertyRef Name="process_date" />
-          </Key>
-          <Property Name="product_id" Type="Int32" Nullable="false" />
-          <Property Name="process_date" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="user_id" Type="Int32" />
-          <Property Name="note" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="quantity" Type="Int32" />
-          <Property Name="bill_id" Type="Int32" />
-          <NavigationProperty Name="Product" Relationship="Self.FK_product_id" FromRole="Dead_Products" ToRole="Product" />
-          <NavigationProperty Name="Selling_Bill" Relationship="Self.FK_Dead_Products_Selling_Bill" FromRole="Dead_Products" ToRole="Selling_Bill" />
-          <NavigationProperty Name="User" Relationship="Self.FK_user_id4" FromRole="Dead_Products" ToRole="Users" />
         </EntityType>
         <Association Name="FK_Buying_Bill_Details_Buying_Bill">
           <End Role="Buying_Bill" Type="Self.Buying_Bill" Multiplicity="1">
@@ -758,17 +733,43 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Customer_Phone">
-          <End Role="Customer" Type="Self.Customer" Multiplicity="1">
+        <Association Name="FK_Dead_Products_Selling_Bill">
+          <End Role="Selling_Bill" Type="Self.Selling_Bill" Multiplicity="0..1" />
+          <End Role="Dead_Products" Type="Self.Dead_Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Selling_Bill">
+              <PropertyRef Name="bill_id" />
+            </Principal>
+            <Dependent Role="Dead_Products">
+              <PropertyRef Name="bill_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_product_id">
+          <End Role="Product" Type="Self.Product" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="Customer_Phone" Type="Self.Customer_Phone" Multiplicity="0..1" />
+          <End Role="Dead_Products" Type="Self.Dead_Products" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Customer">
-              <PropertyRef Name="cust_id" />
+            <Principal Role="Product">
+              <PropertyRef Name="product_id" />
             </Principal>
-            <Dependent Role="Customer_Phone">
-              <PropertyRef Name="cust_id" />
+            <Dependent Role="Dead_Products">
+              <PropertyRef Name="product_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_id4">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Dead_Products" Type="Self.Dead_Products" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Dead_Products">
+              <PropertyRef Name="user_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -824,20 +825,6 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_product_id">
-          <End Role="Product" Type="Self.Product" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Dead_Products" Type="Self.Dead_Products" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Product">
-              <PropertyRef Name="product_id" />
-            </Principal>
-            <Dependent Role="Dead_Products">
-              <PropertyRef Name="product_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_role">
           <End Role="Roles" Type="Self.Role" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -849,18 +836,6 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
             </Principal>
             <Dependent Role="Users">
               <PropertyRef Name="role_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Dead_Products_Selling_Bill">
-          <End Role="Selling_Bill" Type="Self.Selling_Bill" Multiplicity="0..1" />
-          <End Role="Dead_Products" Type="Self.Dead_Products" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Selling_Bill">
-              <PropertyRef Name="bill_id" />
-            </Principal>
-            <Dependent Role="Dead_Products">
-              <PropertyRef Name="bill_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -892,26 +867,12 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_user_id4">
-          <End Role="Users" Type="Self.User" Multiplicity="0..1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="Dead_Products" Type="Self.Dead_Products" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Users">
-              <PropertyRef Name="user_id" />
-            </Principal>
-            <Dependent Role="Dead_Products">
-              <PropertyRef Name="user_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="Point_Of_SaleEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Buying_Bill" EntityType="Self.Buying_Bill" />
           <EntitySet Name="Buying_Bill_Details" EntityType="Self.Buying_Bill_Details" />
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Customers" EntityType="Self.Customer" />
-          <EntitySet Name="Customer_Phone" EntityType="Self.Customer_Phone" />
+          <EntitySet Name="Dead_Products" EntityType="Self.Dead_Products" />
           <EntitySet Name="Expenses" EntityType="Self.Expens" />
           <EntitySet Name="Paying_Motion" EntityType="Self.Paying_Motion" />
           <EntitySet Name="Products" EntityType="Self.Product" />
@@ -920,7 +881,6 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <EntitySet Name="Selling_Bill_Details" EntityType="Self.Selling_Bill_Details" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <EntitySet Name="Vendors" EntityType="Self.Vendor" />
-          <EntitySet Name="Dead_Products" EntityType="Self.Dead_Products" />
           <AssociationSet Name="FK_Buying_Bill_Details_Buying_Bill" Association="Self.FK_Buying_Bill_Details_Buying_Bill">
             <End Role="Buying_Bill" EntitySet="Buying_Bill" />
             <End Role="Buying_Bill_Details" EntitySet="Buying_Bill_Details" />
@@ -945,9 +905,17 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
             <End Role="Customer" EntitySet="Customers" />
             <End Role="Selling_Bill" EntitySet="Selling_Bill" />
           </AssociationSet>
-          <AssociationSet Name="FK_Customer_Phone" Association="Self.FK_Customer_Phone">
-            <End Role="Customer" EntitySet="Customers" />
-            <End Role="Customer_Phone" EntitySet="Customer_Phone" />
+          <AssociationSet Name="FK_Dead_Products_Selling_Bill" Association="Self.FK_Dead_Products_Selling_Bill">
+            <End Role="Selling_Bill" EntitySet="Selling_Bill" />
+            <End Role="Dead_Products" EntitySet="Dead_Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_product_id" Association="Self.FK_product_id">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="Dead_Products" EntitySet="Dead_Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_id4" Association="Self.FK_user_id4">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Dead_Products" EntitySet="Dead_Products" />
           </AssociationSet>
           <AssociationSet Name="FK_user_id" Association="Self.FK_user_id">
             <End Role="Users" EntitySet="Users" />
@@ -965,17 +933,9 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
             <End Role="Product" EntitySet="Products" />
             <End Role="Selling_Bill_Details" EntitySet="Selling_Bill_Details" />
           </AssociationSet>
-          <AssociationSet Name="FK_product_id" Association="Self.FK_product_id">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="Dead_Products" EntitySet="Dead_Products" />
-          </AssociationSet>
           <AssociationSet Name="FK_role" Association="Self.FK_role">
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Dead_Products_Selling_Bill" Association="Self.FK_Dead_Products_Selling_Bill">
-            <End Role="Selling_Bill" EntitySet="Selling_Bill" />
-            <End Role="Dead_Products" EntitySet="Dead_Products" />
           </AssociationSet>
           <AssociationSet Name="FK_Selling_Bill_Details_Bill" Association="Self.FK_Selling_Bill_Details_Bill">
             <End Role="Selling_Bill" EntitySet="Selling_Bill" />
@@ -985,11 +945,90 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
             <End Role="Users" EntitySet="Users" />
             <End Role="Selling_Bill" EntitySet="Selling_Bill" />
           </AssociationSet>
-          <AssociationSet Name="FK_user_id4" Association="Self.FK_user_id4">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="Dead_Products" EntitySet="Dead_Products" />
-          </AssociationSet>
+          <FunctionImport Name="getBuyinglingBill" ReturnType="Collection(Point_Of_SaleModel.getBuyinglingBill_Result)">
+            <Parameter Name="bill_Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="getCustPaying" ReturnType="Collection(Point_Of_SaleModel.getCustPaying_Result)" />
+          <FunctionImport Name="getSellingBill" ReturnType="Collection(Point_Of_SaleModel.getSellingBill_Result)">
+            <Parameter Name="bill_Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="gettotalBuying" ReturnType="Collection(Point_Of_SaleModel.gettotalBuying_Result)">
+            <Parameter Name="t1" Mode="In" Type="DateTime" />
+            <Parameter Name="t2" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="gettotalexpens" ReturnType="Collection(Double)">
+            <Parameter Name="t1" Mode="In" Type="DateTime" />
+            <Parameter Name="t2" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="gettotals" ReturnType="Collection(Point_Of_SaleModel.gettotals_Result)">
+            <Parameter Name="t1" Mode="In" Type="DateTime" />
+            <Parameter Name="t2" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="getVendPaying" ReturnType="Collection(Point_Of_SaleModel.getVendPaying_Result)" />
         </EntityContainer>
+        <ComplexType Name="getBuyinglingBill_Result">
+          <Property Type="Int32" Name="bill_id" Nullable="false" />
+          <Property Type="Int32" Name="الكمية" Nullable="false" />
+          <Property Type="Double" Name="الاجمالي_الفرعي" Nullable="false" />
+          <Property Type="DateTime" Name="تاريخ_الفاتورة" Nullable="false" Precision="23" />
+          <Property Type="Double" Name="الخصم_الكلي" Nullable="false" />
+          <Property Type="Double" Name="مصاريف_اخري" Nullable="false" />
+          <Property Type="Double" Name="المدفوع" Nullable="false" />
+          <Property Type="Double" Name="الاجمالي" Nullable="false" />
+          <Property Type="Double" Name="المتبقي" Nullable="false" />
+          <Property Type="String" Name="اسم_المنتج" Nullable="false" MaxLength="50" />
+          <Property Type="Double" Name="سعر_الشراء" Nullable="false" />
+          <Property Type="String" Name="اسم_المورد" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="رقم_الهاتف" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="حساب_المورد" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getCustPaying_Result">
+          <Property Type="Int32" Name="C_id" Nullable="false" />
+          <Property Type="String" Name="C_اسم_العميل" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="C_تاريخ_الدفع" Nullable="true" Precision="23" />
+          <Property Type="Double" Name="C_القيمة_المسدده" Nullable="true" />
+          <Property Type="String" Name="C_ملاحظات" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="C_اسم_المحصل" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="getSellingBill_Result">
+          <Property Type="Int32" Name="رقم_الفاتورة" Nullable="false" />
+          <Property Type="Int32" Name="الكمية" Nullable="false" />
+          <Property Type="Double" Name="الاجمالي_الفرعي" Nullable="false" />
+          <Property Type="Double" Name="C_الخصم" Nullable="false" />
+          <Property Type="DateTime" Name="تاريخ_الفاتورة" Nullable="false" Precision="23" />
+          <Property Type="Double" Name="المدفوع" Nullable="false" />
+          <Property Type="Double" Name="الخصم_الكلي" Nullable="false" />
+          <Property Type="Double" Name="مصاريف_اخري" Nullable="false" />
+          <Property Type="Double" Name="الاجمالي" Nullable="false" />
+          <Property Type="Double" Name="المتبقي" Nullable="false" />
+          <Property Type="String" Name="ملاحظات" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="اسم_العميل" Nullable="false" MaxLength="50" />
+          <Property Type="Double" Name="الحساب_السابق" Nullable="true" />
+          <Property Type="String" Name="عنوان_العميل" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="تليفون_العميل" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="اسم_البائع" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="اسم_المنتج" Nullable="false" MaxLength="50" />
+          <Property Type="Double" Name="سعر_الوحده" Nullable="false" />
+          <Property Type="Double" Name="سعر_المستهلك" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="gettotalBuying_Result">
+          <Property Type="Double" Name="المدفوع_مشتريات" Nullable="true" />
+          <Property Type="Double" Name="الاجمالي_مشتريات" Nullable="true" />
+          <Property Type="Double" Name="المتبقي_مشتريات" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="gettotals_Result">
+          <Property Type="Double" Name="C___المدفوع_مبيعات" Nullable="true" />
+          <Property Type="Double" Name="C_الاجمالي_مبيعات" Nullable="true" />
+          <Property Type="Double" Name="المتبقي_مبيعات" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="getVendPaying_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="اسم_المورد" Nullable="false" MaxLength="50" />
+          <Property Type="DateTime" Name="تاريخ_الدفع" Nullable="true" Precision="23" />
+          <Property Type="Double" Name="القيمة_المسددة" Nullable="true" />
+          <Property Type="String" Name="C_ملاحظات" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="C_اسم_المحصل" Nullable="true" MaxLength="50" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1005,9 +1044,9 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
                 <ScalarProperty Name="bill_paid" ColumnName="bill_paid" />
                 <ScalarProperty Name="bill_discount" ColumnName="bill_discount" />
                 <ScalarProperty Name="bill_other_costs" ColumnName="bill_other_costs" />
-                <ScalarProperty Name="bill_paying_type" ColumnName="bill_paying_type" />
                 <ScalarProperty Name="bill_notes" ColumnName="bill_notes" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="total" ColumnName="total" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1018,7 +1057,6 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
                 <ScalarProperty Name="product_id" ColumnName="product_id" />
                 <ScalarProperty Name="product_quantity" ColumnName="product_quantity" />
                 <ScalarProperty Name="product_price" ColumnName="product_price" />
-                <ScalarProperty Name="product_other_cost" ColumnName="product_other_cost" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1033,21 +1071,26 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
           <EntitySetMapping Name="Customers">
             <EntityTypeMapping TypeName="Point_Of_SaleModel.Customer">
               <MappingFragment StoreEntitySet="Customer">
-                <ScalarProperty Name="cust_phone" ColumnName="cust_phone" />
                 <ScalarProperty Name="cust_id" ColumnName="cust_id" />
                 <ScalarProperty Name="cust_name" ColumnName="cust_name" />
                 <ScalarProperty Name="cust_address" ColumnName="cust_address" />
                 <ScalarProperty Name="cust_balance" ColumnName="cust_balance" />
                 <ScalarProperty Name="cust_score" ColumnName="cust_score" />
                 <ScalarProperty Name="cust_note" ColumnName="cust_note" />
+                <ScalarProperty Name="cust_phone" ColumnName="cust_phone" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Customer_Phone">
-            <EntityTypeMapping TypeName="Point_Of_SaleModel.Customer_Phone">
-              <MappingFragment StoreEntitySet="Customer_Phone">
-                <ScalarProperty Name="cust_id" ColumnName="cust_id" />
-                <ScalarProperty Name="cust_phone" ColumnName="cust_phone" />
+          <EntitySetMapping Name="Dead_Products">
+            <EntityTypeMapping TypeName="Point_Of_SaleModel.Dead_Products">
+              <MappingFragment StoreEntitySet="Dead_Products">
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="process_date" ColumnName="process_date" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="note" ColumnName="note" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="bill_id" ColumnName="bill_id" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1089,6 +1132,7 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
                 <ScalarProperty Name="product_price" ColumnName="product_price" />
                 <ScalarProperty Name="expire_date" ColumnName="expire_date" />
                 <ScalarProperty Name="end_user_price" ColumnName="end_user_price" />
+                <ScalarProperty Name="minQunt" ColumnName="minQunt" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1109,9 +1153,9 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
                 <ScalarProperty Name="bill_paid" ColumnName="bill_paid" />
                 <ScalarProperty Name="bill_discount" ColumnName="bill_discount" />
                 <ScalarProperty Name="bill_other_costs" ColumnName="bill_other_costs" />
-                <ScalarProperty Name="bill_paying_type" ColumnName="bill_paying_type" />
                 <ScalarProperty Name="bill_notes" ColumnName="bill_notes" />
                 <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="total" ColumnName="total" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1149,18 +1193,94 @@ warning 6002: The table/view 'Point_Of_Sale.dbo.Dead_Products' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Dead_Products">
-            <EntityTypeMapping TypeName="Point_Of_SaleModel.Dead_Products">
-              <MappingFragment StoreEntitySet="Dead_Products">
-                <ScalarProperty Name="product_id" ColumnName="product_id" />
-                <ScalarProperty Name="process_date" ColumnName="process_date" />
-                <ScalarProperty Name="user_id" ColumnName="user_id" />
-                <ScalarProperty Name="note" ColumnName="note" />
-                <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <FunctionImportMapping FunctionImportName="getBuyinglingBill" FunctionName="Point_Of_SaleModel.Store.getBuyinglingBill">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Point_Of_SaleModel.getBuyinglingBill_Result">
                 <ScalarProperty Name="bill_id" ColumnName="bill_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+                <ScalarProperty Name="الكمية" ColumnName="الكمية" />
+                <ScalarProperty Name="الاجمالي_الفرعي" ColumnName="الاجمالي الفرعي" />
+                <ScalarProperty Name="تاريخ_الفاتورة" ColumnName="تاريخ الفاتورة" />
+                <ScalarProperty Name="الخصم_الكلي" ColumnName="الخصم الكلي" />
+                <ScalarProperty Name="مصاريف_اخري" ColumnName="مصاريف اخري" />
+                <ScalarProperty Name="المدفوع" ColumnName="المدفوع" />
+                <ScalarProperty Name="الاجمالي" ColumnName="الاجمالي" />
+                <ScalarProperty Name="المتبقي" ColumnName="المتبقي" />
+                <ScalarProperty Name="اسم_المنتج" ColumnName="اسم المنتج" />
+                <ScalarProperty Name="سعر_الشراء" ColumnName="سعر الشراء" />
+                <ScalarProperty Name="اسم_المورد" ColumnName="اسم المورد" />
+                <ScalarProperty Name="رقم_الهاتف" ColumnName="رقم الهاتف" />
+                <ScalarProperty Name="حساب_المورد" ColumnName="حساب المورد" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getCustPaying" FunctionName="Point_Of_SaleModel.Store.getCustPaying">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Point_Of_SaleModel.getCustPaying_Result">
+                <ScalarProperty Name="C_id" ColumnName=" id" />
+                <ScalarProperty Name="C_اسم_العميل" ColumnName=" اسم العميل" />
+                <ScalarProperty Name="C_تاريخ_الدفع" ColumnName=" تاريخ الدفع" />
+                <ScalarProperty Name="C_القيمة_المسدده" ColumnName=" القيمة المسدده" />
+                <ScalarProperty Name="C_ملاحظات" ColumnName=" ملاحظات" />
+                <ScalarProperty Name="C_اسم_المحصل" ColumnName=" اسم المحصل" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getSellingBill" FunctionName="Point_Of_SaleModel.Store.getSellingBill">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Point_Of_SaleModel.getSellingBill_Result">
+                <ScalarProperty Name="رقم_الفاتورة" ColumnName="رقم الفاتورة" />
+                <ScalarProperty Name="الكمية" ColumnName="الكمية" />
+                <ScalarProperty Name="الاجمالي_الفرعي" ColumnName="الاجمالي الفرعي" />
+                <ScalarProperty Name="C_الخصم" ColumnName=" الخصم" />
+                <ScalarProperty Name="تاريخ_الفاتورة" ColumnName="تاريخ الفاتورة" />
+                <ScalarProperty Name="المدفوع" ColumnName="المدفوع" />
+                <ScalarProperty Name="الخصم_الكلي" ColumnName="الخصم الكلي" />
+                <ScalarProperty Name="مصاريف_اخري" ColumnName="مصاريف اخري" />
+                <ScalarProperty Name="الاجمالي" ColumnName="الاجمالي" />
+                <ScalarProperty Name="المتبقي" ColumnName="المتبقي" />
+                <ScalarProperty Name="ملاحظات" ColumnName="ملاحظات" />
+                <ScalarProperty Name="اسم_العميل" ColumnName="اسم العميل" />
+                <ScalarProperty Name="الحساب_السابق" ColumnName="الحساب السابق" />
+                <ScalarProperty Name="عنوان_العميل" ColumnName="عنوان العميل" />
+                <ScalarProperty Name="تليفون_العميل" ColumnName="تليفون العميل" />
+                <ScalarProperty Name="اسم_البائع" ColumnName="اسم البائع" />
+                <ScalarProperty Name="اسم_المنتج" ColumnName="اسم المنتج" />
+                <ScalarProperty Name="سعر_الوحده" ColumnName="سعر الوحده" />
+                <ScalarProperty Name="سعر_المستهلك" ColumnName="سعر المستهلك" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="gettotalBuying" FunctionName="Point_Of_SaleModel.Store.gettotalBuying">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Point_Of_SaleModel.gettotalBuying_Result">
+                <ScalarProperty Name="المدفوع_مشتريات" ColumnName="المدفوع مشتريات" />
+                <ScalarProperty Name="الاجمالي_مشتريات" ColumnName="الاجمالي مشتريات" />
+                <ScalarProperty Name="المتبقي_مشتريات" ColumnName="المتبقي مشتريات" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="gettotalexpens" FunctionName="Point_Of_SaleModel.Store.gettotalexpens" />
+          <FunctionImportMapping FunctionImportName="gettotals" FunctionName="Point_Of_SaleModel.Store.gettotals">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Point_Of_SaleModel.gettotals_Result">
+                <ScalarProperty Name="C___المدفوع_مبيعات" ColumnName="   المدفوع مبيعات" />
+                <ScalarProperty Name="C_الاجمالي_مبيعات" ColumnName=" الاجمالي مبيعات" />
+                <ScalarProperty Name="المتبقي_مبيعات" ColumnName="المتبقي مبيعات" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="getVendPaying" FunctionName="Point_Of_SaleModel.Store.getVendPaying">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="Point_Of_SaleModel.getVendPaying_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="اسم_المورد" ColumnName="اسم المورد" />
+                <ScalarProperty Name="تاريخ_الدفع" ColumnName="تاريخ الدفع" />
+                <ScalarProperty Name="القيمة_المسددة" ColumnName="القيمة المسددة" />
+                <ScalarProperty Name="C_ملاحظات" ColumnName=" ملاحظات" />
+                <ScalarProperty Name="C_اسم_المحصل" ColumnName=" اسم المحصل" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

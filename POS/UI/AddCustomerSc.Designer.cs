@@ -51,7 +51,7 @@
             this.btnSave.BackColor = System.Drawing.Color.DarkOliveGreen;
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.btnSave.Location = new System.Drawing.Point(18, 202);
+            this.btnSave.Location = new System.Drawing.Point(34, 208);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(111, 35);
             this.btnSave.TabIndex = 0;
@@ -61,21 +61,21 @@
             // 
             // nameText
             // 
-            this.nameText.Location = new System.Drawing.Point(284, 61);
+            this.nameText.Location = new System.Drawing.Point(300, 67);
             this.nameText.Name = "nameText";
             this.nameText.Size = new System.Drawing.Size(148, 20);
             this.nameText.TabIndex = 1;
             // 
             // phoneText
             // 
-            this.phoneText.Location = new System.Drawing.Point(18, 61);
+            this.phoneText.Location = new System.Drawing.Point(34, 67);
             this.phoneText.Name = "phoneText";
             this.phoneText.Size = new System.Drawing.Size(155, 20);
             this.phoneText.TabIndex = 4;
             // 
             // addText
             // 
-            this.addText.Location = new System.Drawing.Point(284, 119);
+            this.addText.Location = new System.Drawing.Point(300, 125);
             this.addText.Name = "addText";
             this.addText.Size = new System.Drawing.Size(148, 20);
             this.addText.TabIndex = 5;
@@ -83,7 +83,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(218, 61);
+            this.label1.Location = new System.Drawing.Point(234, 67);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(36, 13);
             this.label1.TabIndex = 7;
@@ -92,7 +92,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(489, 172);
+            this.label2.Location = new System.Drawing.Point(480, 174);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(45, 13);
             this.label2.TabIndex = 8;
@@ -101,7 +101,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(469, 122);
+            this.label3.Location = new System.Drawing.Point(468, 125);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(65, 13);
             this.label3.TabIndex = 9;
@@ -119,7 +119,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(194, 163);
+            this.label5.Location = new System.Drawing.Point(210, 169);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(66, 13);
             this.label5.TabIndex = 11;
@@ -128,7 +128,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(469, 68);
+            this.label6.Location = new System.Drawing.Point(468, 70);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(57, 13);
             this.label6.TabIndex = 12;
@@ -137,7 +137,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(194, 111);
+            this.label7.Location = new System.Drawing.Point(210, 117);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(60, 13);
             this.label7.TabIndex = 13;
@@ -145,7 +145,7 @@
             // 
             // noteText
             // 
-            this.noteText.Location = new System.Drawing.Point(284, 164);
+            this.noteText.Location = new System.Drawing.Point(300, 170);
             this.noteText.Name = "noteText";
             this.noteText.Size = new System.Drawing.Size(148, 73);
             this.noteText.TabIndex = 14;
@@ -153,14 +153,15 @@
             // 
             // scoreInput
             // 
-            this.scoreInput.Location = new System.Drawing.Point(18, 111);
+            this.scoreInput.Location = new System.Drawing.Point(34, 117);
             this.scoreInput.Name = "scoreInput";
             this.scoreInput.Size = new System.Drawing.Size(158, 20);
             this.scoreInput.TabIndex = 15;
             // 
             // balanceInput
             // 
-            this.balanceInput.Location = new System.Drawing.Point(18, 161);
+            this.balanceInput.Enabled = false;
+            this.balanceInput.Location = new System.Drawing.Point(34, 167);
             this.balanceInput.Name = "balanceInput";
             this.balanceInput.Size = new System.Drawing.Size(155, 20);
             this.balanceInput.TabIndex = 16;
@@ -169,7 +170,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(571, 283);
+            this.BackColor = System.Drawing.Color.LightBlue;
+            this.ClientSize = new System.Drawing.Size(542, 283);
             this.Controls.Add(this.balanceInput);
             this.Controls.Add(this.scoreInput);
             this.Controls.Add(this.noteText);
@@ -185,7 +187,7 @@
             this.Controls.Add(this.nameText);
             this.Controls.Add(this.btnSave);
             this.Name = "AddCustomerSc";
-            this.Text = "AddCustomerSc";
+            this.Text = "اضافة عميل جديد";
             ((System.ComponentModel.ISupportInitialize)(this.scoreInput)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.balanceInput)).EndInit();
             this.ResumeLayout(false);

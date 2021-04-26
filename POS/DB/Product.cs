@@ -18,27 +18,28 @@ namespace POS.DB
         public Product()
         {
             this.Buying_Bill_Details = new HashSet<Buying_Bill_Details>();
-            this.Selling_Bill_Details = new HashSet<Selling_Bill_Details>();
             this.Dead_Products = new HashSet<Dead_Products>();
+            this.Selling_Bill_Details = new HashSet<Selling_Bill_Details>();
         }
     
         public int product_id { get; set; }
-        public Nullable<int> cat_id { get; set; }
+        public int cat_id { get; set; }
         public string product_name { get; set; }
         public string brand_name { get; set; }
         public string product_color { get; set; }
         public int product_quantity { get; set; }
         public double product_cost { get; set; }
         public double product_price { get; set; }
-        public Nullable<System.DateTime> expire_date { get; set; }
-        public Nullable<double> end_user_price { get; set; }
+        public System.DateTime expire_date { get; set; }
+        public double end_user_price { get; set; }
+        public int minQunt { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Buying_Bill_Details> Buying_Bill_Details { get; set; }
         public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Selling_Bill_Details> Selling_Bill_Details { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Dead_Products> Dead_Products { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Selling_Bill_Details> Selling_Bill_Details { get; set; }
     }
 }

@@ -55,12 +55,14 @@ namespace POS.DAL
         {
             try
             {
-                Customer cu = db.Customers.Find(c.cust_id);
+                Customer cu = db.Customers.SingleOrDefault(cus =>cus.cust_id  == c.cust_id);
+               
                 cu.cust_name = c.cust_name;
                 cu.cust_address = c.cust_address;
                 cu.cust_balance = c.cust_balance;
                 cu.cust_score = c.cust_score;
                 cu.cust_note = c.cust_note;
+                cu.cust_balance = c.cust_balance;
                 cu.cust_phone = c.cust_phone;
                 db.SaveChanges();
                 return 1;
@@ -70,6 +72,11 @@ namespace POS.DAL
                 Console.Write(e.StackTrace);
                 return 0;
             }
+        }
+        public int getCutomerIdByName(string na)
+        {
+            Customer c = db.Customers.First(a => a.cust_name == na);
+            return c.cust_id;
         }
     }
 }

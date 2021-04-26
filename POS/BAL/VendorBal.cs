@@ -31,7 +31,7 @@ namespace POS.BAL
                     vendor.createVendor(ven);
                    
                     res = 1;
-                    MessageBox.Show(" تم حفظ المستخدم");
+                    MessageBox.Show(" تم حفظ المورد");
                 }
                 catch (Exception e)
                 {
@@ -81,14 +81,10 @@ namespace POS.BAL
                 vend.ven_id = vendor.listOfvendors()[i].vend_id;
                 vend.ven_phone =vendor.listOfvendors()[i].vend_phone;
                 vend.ven_note = vendor.listOfvendors()[i].vend_note;
-                if (vendor.listOfvendors()[i].vend_balance != null)
-                {
+                
                     vend.ven_balance = (float)(vendor.listOfvendors()[i].vend_balance);
-                }
-                else
-                {
-                    vend.ven_balance = 0;
-                }
+                
+               
                
                 vend.ven_address = vendor.listOfvendors()[i].vend_address;
 

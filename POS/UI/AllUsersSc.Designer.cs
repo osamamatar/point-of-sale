@@ -115,6 +115,7 @@
             // DeleteBtn
             // 
             this.DeleteBtn.BackColor = System.Drawing.Color.Red;
+            this.DeleteBtn.Enabled = false;
             this.DeleteBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.DeleteBtn.Location = new System.Drawing.Point(127, 138);
             this.DeleteBtn.Name = "DeleteBtn";
@@ -201,6 +202,7 @@
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(77, 39);
             this.btnSave.TabIndex = 51;
+            this.btnSave.TabStop = false;
             this.btnSave.Text = "حفظ";
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -209,6 +211,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.LightBlue;
             this.ClientSize = new System.Drawing.Size(567, 522);
             this.Controls.Add(this.jobVal);
             this.Controls.Add(this.label6);

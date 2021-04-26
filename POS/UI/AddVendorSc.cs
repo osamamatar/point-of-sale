@@ -25,19 +25,23 @@ namespace POS.UI
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            dto.VendorDto v = new dto.VendorDto();
-            v.ven_name = nameText.Text.Trim();
-            v.ven_address = addressText.Text.Trim();
-            v.ven_phone = phoneText.Text.Trim();
-            v.ven_note = noteText.Text.Trim();
-
-            int valid = new BAL.VendorBal().createVendor(v);
-            if (valid == 1)
+            if (nameText.Text != "" && nameText.Text.Length != 0)
             {
-                
+                dto.VendorDto v = new dto.VendorDto();
+                v.ven_name = nameText.Text.Trim();
+                v.ven_address = addressText.Text.Trim();
+                v.ven_phone = phoneText.Text.Trim();
+                v.ven_note = noteText.Text.Trim();
 
-                this.Close();
+                int valid = new BAL.VendorBal().createVendor(v);
+                if (valid == 1)
+                {
+
+
+                    this.Close();
+                }
             }
+            
           
         }
 

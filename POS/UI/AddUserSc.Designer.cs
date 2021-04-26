@@ -132,7 +132,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(390, 411);
+            this.BackColor = System.Drawing.Color.LightBlue;
+            this.ClientSize = new System.Drawing.Size(345, 411);
             this.Controls.Add(this.jobVal);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -146,7 +147,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "AddUserSc";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "AddUserSc";
+            this.Text = "اضافة مستخدم جديد";
             this.Load += new System.EventHandler(this.AddUserSc_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

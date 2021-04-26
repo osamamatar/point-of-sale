@@ -18,10 +18,10 @@ namespace POS.DB
         public User()
         {
             this.Buying_Bill = new HashSet<Buying_Bill>();
+            this.Dead_Products = new HashSet<Dead_Products>();
             this.Expenses = new HashSet<Expens>();
             this.Paying_Motion = new HashSet<Paying_Motion>();
             this.Selling_Bill = new HashSet<Selling_Bill>();
-            this.Dead_Products = new HashSet<Dead_Products>();
         }
     
         public int user_id { get; set; }
@@ -33,13 +33,13 @@ namespace POS.DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Buying_Bill> Buying_Bill { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Dead_Products> Dead_Products { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Expens> Expenses { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Paying_Motion> Paying_Motion { get; set; }
         public virtual Role Role { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Selling_Bill> Selling_Bill { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Dead_Products> Dead_Products { get; set; }
     }
 }

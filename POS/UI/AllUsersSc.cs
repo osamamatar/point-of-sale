@@ -28,7 +28,10 @@ namespace POS.UI
     
         private void AllUsersSc_Load(object sender, EventArgs e)
         {
-
+            if (Util.MySession.userRole == "مدير")
+            {
+                DeleteBtn.Enabled = true;
+            }
            
             dataGridView.AutoGenerateColumns=false;
 
@@ -52,17 +55,20 @@ namespace POS.UI
         private void dataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
            
-            id = dataGridView.CurrentRow.Cells[0].Value.ToString().Trim();
+            
         }
 
         private void DeleteBtn_Click(object sender, EventArgs e)
         {
 
-         
-           u.deleteUser(id);
-            MessageBox.Show("تم حذف المستخدم");
-            dataGridView.AutoGenerateColumns = false;
-            dataGridView.DataSource = u.listOfUsers();
+            if (dataGridView.Rows.Count > 1)
+            {
+                u.deleteUser(id);
+                MessageBox.Show("تم حذف المستخدم");
+                dataGridView.AutoGenerateColumns = false;
+                dataGridView.DataSource = u.listOfUsers();
+            }
+        
 
          
 
@@ -75,17 +81,21 @@ namespace POS.UI
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            userDto user = new userDto();
-            user.user_id = Int32.Parse(dataGridView.CurrentRow.Cells[0].Value.ToString().Trim());
-            user.user_full_name = nameText.Text;
-            user.user_name = userNameText.Text;
-            user.user_pass = passwordText.Text;
-            user.user_role =jobVal.Text;
-            u.updateUser(user);
+            if (dataGridView.Rows.Count != 0)
+            {
+                userDto user = new userDto();
+                user.user_id = Int32.Parse(dataGridView.CurrentRow.Cells[0].Value.ToString().Trim());
+                user.user_full_name = nameText.Text;
+                user.user_name = userNameText.Text;
+                user.user_pass = passwordText.Text;
+                user.user_role = jobVal.Text;
+                u.updateUser(user);
+
+                MessageBox.Show("تم تعديل المستخدم");
+                this.Close();
+                new AllUsersSc().Show();
+            }
            
-            MessageBox.Show("تم تعديل المستخدم");
-            this.Close();
-            new AllUsersSc().Show();
           
 
         }
@@ -95,7 +105,7 @@ namespace POS.UI
             nameText.Text = dataGridView.CurrentRow.Cells[1].Value.ToString();
             userNameText.Text = dataGridView.CurrentRow.Cells[2].Value.ToString();
             passwordText.Text = dataGridView.CurrentRow.Cells[3].Value.ToString();
-
+            id = dataGridView.CurrentRow.Cells[0].Value.ToString().Trim();
             jobVal.DataSource = new DAL.RolDal().getAllRoll();
             jobVal.DisplayMember = "role_description";
             jobVal.ValueMember = "role_id";

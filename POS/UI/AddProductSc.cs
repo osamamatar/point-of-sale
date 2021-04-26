@@ -16,6 +16,7 @@ namespace POS.UI
     {
         ProductDal pdal = new ProductDal();
         ProductBal pbal = new ProductBal();
+
         public AddProductSc()
         {
             InitializeComponent();
@@ -25,7 +26,10 @@ namespace POS.UI
         {
 
         }
+        void empty()
+        {
 
+        }
         private void AddProductSc_Load(object sender, EventArgs e)
         {
             catText.DataSource = pdal.getAllCategorys();
@@ -36,37 +40,98 @@ namespace POS.UI
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            
+            var l = pdal.getAllProducts();
             ProductDto pdto = new ProductDto();
-           
-            pdto.name = nametext.Text;
-            pdto.cat = catText.Text;
-            pdto.color = colorText.Text;
-            pdto.cost =(float) costInput.Value;
-            pdto.end_price = (float)endPriceInput.Value;
-            pdto.price = (float)priceInput.Value;
-            pdto.quantity =Convert.ToInt32(quntInput.Value);
-            pdto.brand = brandText.Text;
-            pdto.expire_date = dateTimeInput.Value;
-            if (pdto.name.Length != 0 && pdto.brand.Length != 0)
+            bool isExcet = false;
+           foreach(var i in l)
             {
-             int res=   pbal.createProduct(pdto);
-                if (res == 1)
+                if (nametext.Text == i.product_name)
                 {
-                    MessageBox.Show("تم حفظ المنتج");
+                    isExcet = true;
+                    break;
+                }
+            }
+            if (costInput.Text.Length!=0 &&endPriceInput.Text.Length!=0 &&priceInput.Text.Length!=0) {
+                if (!isExcet)
+                {
+                    pdto.name = nametext.Text;
+                    pdto.cat = catText.Text;
+                    pdto.color = colorText.Text;
+                    pdto.cost = float.Parse(costInput.Text.Trim());
+                    pdto.end_price = float.Parse(endPriceInput.Text);
+                    pdto.price = float.Parse(priceInput.Text);
+                    pdto.quantity = Convert.ToInt32(quntInput.Value);
+                    pdto.brand = brandText.Text;
+                    pdto.expire_date = dateTimeInput.Value;
+                    pdto.minQunt = Convert.ToInt32(minquntInput.Value);
+                    if (pdto.name.Length != 0 && pdto.brand.Length != 0 && pdto.price > pdto.cost && pdto.end_price > pdto.cost && pdto.end_price >= pdto.price)
+                    {
+                        int res = pbal.createProduct(pdto);
+                        if (res == 1)
+                        {
+                            MessageBox.Show("تم حفظ المنتج");
+                            this.Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("لم يتم الحفظ");
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("من فضل ادخل البيانات بشكل صحيح");
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("لم يتم الحفظ");
+                    MessageBox.Show("هذا الاسم موجود من قبل ");
                 }
-
             }
-            else
-            {
-                MessageBox.Show("من فضل ادخل البيانات بشكل صحيح");
-            }
+       
+          
+          
            
 
+        }
+
+        private void costInput_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+          (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void priceInput_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+          (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void endPriceInput_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+          (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
         }
     }
 }

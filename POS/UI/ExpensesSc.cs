@@ -27,7 +27,7 @@ namespace POS.UI
             expen.description = destext.Text;
             expen.date = dateText.Value;
             expen.user_name = usersNames.Text;
-            if (expen.user_name != null&& expen.cost!=0&&expen.description.Length!=0&& expen.description.Length<=50)
+            if (expen.user_name != null&& expen.cost!=0&&expen.description.Length!=0&& expen.description.Length<=50 && usersNames.SelectedIndex>-1)
             {
                 ex.createExpense(expen);
                 dataGridView.DataSource = ex.getListOfExpenses();
@@ -35,7 +35,7 @@ namespace POS.UI
                 costText.Value = 0;
                 destext.Text = "";
                 dateText.Value = DateTime.Now;
-                usersNames.Text = "";
+              
 
             }
             else
@@ -48,36 +48,55 @@ namespace POS.UI
 
         private void ExpensesSc_Load(object sender, EventArgs e)
         {
+            var lis = ex.getListOfExpenses();
             usersNames.DataSource = user.getListOfUsersNames();
-            dataGridView.DataSource = ex.getListOfExpenses();
-            total.Text =Convert.ToString( ex.getTotalExpens());
-            dateTimePicker1.Value = ex.getListOfExpenses()[0].date;
-            dateTimePicker2.Value = ex.getListOfExpenses()[ex.getListOfExpenses().Count-1].date;
+            dataGridView.DataSource =lis ;
+            if (dataGridView.Rows.Count != 0)
+            {
+                total.Text = Convert.ToString(ex.getTotalExpens());
+
+                dateTimePicker1.Value = lis[0].date;
+                dateTimePicker2.Value = lis[lis.Count - 1].date;
+            }
+          
 
 
         }
 
         private void deleteBtn_Click(object sender, EventArgs e)
         {
-            ExpensDto expens = new ExpensDto();
+           
+            
+            if (dataGridView.Rows.Count != 0)
+            {
+                ExpensDto expens = new ExpensDto();
 
-            expens.id = Convert.ToInt32( dataGridView.CurrentRow.Cells[0].Value.ToString());
+                expens.id = Convert.ToInt32(dataGridView.CurrentRow.Cells[0].Value.ToString());
 
-            ex.deleteEpense(expens);
-            dataGridView.DataSource = ex.getListOfExpenses();
-            total.Text = Convert.ToString(ex.getTotalExpens());
+                ex.deleteEpense(expens);
+                dataGridView.DataSource = ex.getListOfExpenses();
+                try {
+                    total.Text = Convert.ToString(ex.getTotalExpens());
+                } catch { }
+              
+            }
+           
         }
 
         private void periodBtn_Click(object sender, EventArgs e)
         {
-            float sum = 0;
-            var l = ex.getSearchedListOfExpenses(dateTimePicker1.Value, dateTimePicker2.Value);
-            dataGridView.DataSource = l;
-            foreach(var i in l)
+            if (dataGridView.Rows.Count != 0)
             {
-                sum += i.cost;
+                float sum = 0;
+                var l = ex.getSearchedListOfExpenses(dateTimePicker1.Value, dateTimePicker2.Value);
+                dataGridView.DataSource = l;
+                foreach (var i in l)
+                {
+                    sum += i.cost;
+                }
+                total.Text = sum.ToString();
             }
-            total.Text = sum.ToString();
+           
         }
     }
 }

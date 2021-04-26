@@ -26,9 +26,9 @@ namespace POS.DB
         public double bill_paid { get; set; }
         public double bill_discount { get; set; }
         public double bill_other_costs { get; set; }
-        public string bill_paying_type { get; set; }
         public string bill_notes { get; set; }
         public int user_id { get; set; }
+        public double total { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Buying_Bill_Details> Buying_Bill_Details { get; set; }

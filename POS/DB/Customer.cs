@@ -23,13 +23,12 @@ namespace POS.DB
         public int cust_id { get; set; }
         public string cust_name { get; set; }
         public string cust_address { get; set; }
-        public Nullable<double> cust_balance { get; set; }
-        public Nullable<int> cust_score { get; set; }
+        public double cust_balance { get; set; }
+        public int cust_score { get; set; }
         public string cust_note { get; set; }
         public string cust_phone { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Selling_Bill> Selling_Bill { get; set; }
-        public virtual Customer_Phone Customer_Phone { get; set; }
     }
 }

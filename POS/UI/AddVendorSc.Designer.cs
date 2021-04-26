@@ -135,6 +135,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.LightBlue;
             this.ClientSize = new System.Drawing.Size(359, 433);
             this.Controls.Add(this.noteText);
             this.Controls.Add(this.label6);
@@ -147,7 +148,7 @@
             this.Controls.Add(this.nameText);
             this.Controls.Add(this.btnSave);
             this.Name = "AddVendorSc";
-            this.Text = "AddVendorSc";
+            this.Text = "اضافة مورد جديد";
             this.Load += new System.EventHandler(this.AddVendorSc_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

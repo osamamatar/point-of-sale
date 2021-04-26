@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace POS.UI
 {
-    public partial class SplashSc : Form
+    public partial class splashSc : Form
     {
-        public SplashSc()
+        public splashSc()
         {
             InitializeComponent();
         }

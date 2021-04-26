@@ -10,13 +10,11 @@
 namespace POS.DB
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Customer_Phone
+    public partial class gettotals_Result
     {
-        public int cust_id { get; set; }
-        public string cust_phone { get; set; }
-    
-        public virtual Customer Customer { get; set; }
+        public Nullable<double> C___المدفوع_مبيعات { get; set; }
+        public Nullable<double> C_الاجمالي_مبيعات { get; set; }
+        public Nullable<double> المتبقي_مبيعات { get; set; }
     }
 }

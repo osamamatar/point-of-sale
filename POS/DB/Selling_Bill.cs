@@ -17,8 +17,8 @@ namespace POS.DB
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Selling_Bill()
         {
-            this.Paying_Motion = new HashSet<Paying_Motion>();
             this.Dead_Products = new HashSet<Dead_Products>();
+            this.Paying_Motion = new HashSet<Paying_Motion>();
             this.Selling_Bill_Details = new HashSet<Selling_Bill_Details>();
         }
     
@@ -28,15 +28,15 @@ namespace POS.DB
         public double bill_paid { get; set; }
         public double bill_discount { get; set; }
         public double bill_other_costs { get; set; }
-        public string bill_paying_type { get; set; }
         public string bill_notes { get; set; }
         public int user_id { get; set; }
+        public double total { get; set; }
     
         public virtual Customer Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Paying_Motion> Paying_Motion { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Dead_Products> Dead_Products { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Paying_Motion> Paying_Motion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Selling_Bill_Details> Selling_Bill_Details { get; set; }
         public virtual User User { get; set; }

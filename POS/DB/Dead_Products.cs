@@ -20,9 +20,10 @@ namespace POS.DB
         public string note { get; set; }
         public Nullable<int> quantity { get; set; }
         public Nullable<int> bill_id { get; set; }
+        public int id { get; set; }
     
-        public virtual Product Product { get; set; }
         public virtual Selling_Bill Selling_Bill { get; set; }
+        public virtual Product Product { get; set; }
         public virtual User User { get; set; }
     }
 }

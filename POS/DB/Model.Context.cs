@@ -12,6 +12,8 @@ namespace POS.DB
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class Point_Of_SaleEntities1 : DbContext
     {
@@ -29,7 +31,7 @@ namespace POS.DB
         public virtual DbSet<Buying_Bill_Details> Buying_Bill_Details { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
-        public virtual DbSet<Customer_Phone> Customer_Phone { get; set; }
+        public virtual DbSet<Dead_Products> Dead_Products { get; set; }
         public virtual DbSet<Expens> Expenses { get; set; }
         public virtual DbSet<Paying_Motion> Paying_Motion { get; set; }
         public virtual DbSet<Product> Products { get; set; }
@@ -38,6 +40,72 @@ namespace POS.DB
         public virtual DbSet<Selling_Bill_Details> Selling_Bill_Details { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
-        public virtual DbSet<Dead_Products> Dead_Products { get; set; }
+    
+        public virtual ObjectResult<getBuyinglingBill_Result> getBuyinglingBill(Nullable<int> bill_Id)
+        {
+            var bill_IdParameter = bill_Id.HasValue ?
+                new ObjectParameter("bill_Id", bill_Id) :
+                new ObjectParameter("bill_Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getBuyinglingBill_Result>("getBuyinglingBill", bill_IdParameter);
+        }
+    
+        public virtual ObjectResult<getCustPaying_Result> getCustPaying()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getCustPaying_Result>("getCustPaying");
+        }
+    
+        public virtual ObjectResult<getSellingBill_Result> getSellingBill(Nullable<int> bill_Id)
+        {
+            var bill_IdParameter = bill_Id.HasValue ?
+                new ObjectParameter("bill_Id", bill_Id) :
+                new ObjectParameter("bill_Id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getSellingBill_Result>("getSellingBill", bill_IdParameter);
+        }
+    
+        public virtual ObjectResult<gettotalBuying_Result> gettotalBuying(Nullable<System.DateTime> t1, Nullable<System.DateTime> t2)
+        {
+            var t1Parameter = t1.HasValue ?
+                new ObjectParameter("t1", t1) :
+                new ObjectParameter("t1", typeof(System.DateTime));
+    
+            var t2Parameter = t2.HasValue ?
+                new ObjectParameter("t2", t2) :
+                new ObjectParameter("t2", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<gettotalBuying_Result>("gettotalBuying", t1Parameter, t2Parameter);
+        }
+    
+        public virtual ObjectResult<Nullable<double>> gettotalexpens(Nullable<System.DateTime> t1, Nullable<System.DateTime> t2)
+        {
+            var t1Parameter = t1.HasValue ?
+                new ObjectParameter("t1", t1) :
+                new ObjectParameter("t1", typeof(System.DateTime));
+    
+            var t2Parameter = t2.HasValue ?
+                new ObjectParameter("t2", t2) :
+                new ObjectParameter("t2", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<double>>("gettotalexpens", t1Parameter, t2Parameter);
+        }
+    
+        public virtual ObjectResult<gettotals_Result> gettotals(Nullable<System.DateTime> t1, Nullable<System.DateTime> t2)
+        {
+            var t1Parameter = t1.HasValue ?
+                new ObjectParameter("t1", t1) :
+                new ObjectParameter("t1", typeof(System.DateTime));
+    
+            var t2Parameter = t2.HasValue ?
+                new ObjectParameter("t2", t2) :
+                new ObjectParameter("t2", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<gettotals_Result>("gettotals", t1Parameter, t2Parameter);
+        }
+    
+        public virtual ObjectResult<getVendPaying_Result> getVendPaying()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<getVendPaying_Result>("getVendPaying");
+        }
     }
 }

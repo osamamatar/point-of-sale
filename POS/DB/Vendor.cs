@@ -23,7 +23,7 @@ namespace POS.DB
         public int vend_id { get; set; }
         public string vend_name { get; set; }
         public string vend_address { get; set; }
-        public Nullable<double> vend_balance { get; set; }
+        public double vend_balance { get; set; }
         public string vend_note { get; set; }
         public string vend_phone { get; set; }
     

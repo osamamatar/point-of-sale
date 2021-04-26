@@ -40,7 +40,6 @@
             this.DeleteBtn = new System.Windows.Forms.Button();
             this.AddBtn = new System.Windows.Forms.Button();
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.noreText = new System.Windows.Forms.TextBox();
             this.venidDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.vennameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.venaddressDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -48,6 +47,7 @@
             this.venbalanceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.venphoneDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.vendorDtoBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.noreText = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vendorDtoBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -167,15 +167,8 @@
             this.dataGridView.Size = new System.Drawing.Size(594, 331);
             this.dataGridView.TabIndex = 61;
             this.dataGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellClick);
+            this.dataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView_CellContentClick);
             this.dataGridView.SelectionChanged += new System.EventHandler(this.dataGridView_SelectionChanged);
-            // 
-            // noreText
-            // 
-            this.noreText.Location = new System.Drawing.Point(34, 82);
-            this.noreText.Multiline = true;
-            this.noreText.Name = "noreText";
-            this.noreText.Size = new System.Drawing.Size(175, 32);
-            this.noreText.TabIndex = 75;
             // 
             // venidDataGridViewTextBoxColumn
             // 
@@ -224,10 +217,19 @@
             // 
             this.vendorDtoBindingSource.DataSource = typeof(POS.dto.VendorDto);
             // 
+            // noreText
+            // 
+            this.noreText.Location = new System.Drawing.Point(34, 82);
+            this.noreText.Multiline = true;
+            this.noreText.Name = "noreText";
+            this.noreText.Size = new System.Drawing.Size(175, 32);
+            this.noreText.TabIndex = 75;
+            // 
             // AllVendorSc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.LightBlue;
             this.ClientSize = new System.Drawing.Size(639, 546);
             this.Controls.Add(this.noreText);
             this.Controls.Add(this.label6);
@@ -243,7 +245,6 @@
             this.Controls.Add(this.dataGridView);
             this.Name = "AllVendorSc";
             this.Text = "AllVendorSc";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.AllVendorSc_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vendorDtoBindingSource)).EndInit();
